@@ -5,7 +5,72 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script>
+    const handleResponse = (response) => {
 
+      
+      const content = document.querySelector("#content");
+      const contentType = response.headers.get('Content-Type');
+      content.innerHTML = "";
+      const h1 = document.createElement('h1');
+      const p = document.createElement('p');
+
+
+      switch(response.status){
+        case 200: 
+          h1.textContent = "Success"
+          break;
+          case 400: 
+          break;
+          case 401: 
+          break;
+          case 404: 
+          break;
+          case 500: 
+          break;
+      }
+      response.text().then((resText) => {
+        if(contentType === 'application/json'){
+          const parsedResponse = JSON.parse(resText);
+          p.textContent = parsedResponse.message;
+          console.log(`${parsedResponse}`);
+        }
+        else if(contentType === 'text/xml'){
+          const parsedResponse = new window.DOMParser().parseFromString(resText, 'text/xml');
+          p.textContent = `Message: ${parsedResponse.querySelector('message').textContent}`;
+          console.log(`${parsedResponse}`);
+        }
+        
+      //console.log(response);
+      content.appendChild(h1);
+      content.appendChild(p);
+      });
+      
+      
+    };
+    
+    const sendFetch = async (url, type) => {
+  const options = {
+        method: "GET",
+        headers:{
+          'Accept': type
+        },
+      };
+
+      const response = await fetch(url, options);
+      handleResponse(response, type);
+    };
+
+    const init = () => {
+      const sendButton = document.querySelector("#send");
+      sendButton.addEventListener('click', () => 
+      {
+        let pageValue = document.querySelector("#page").options[document.querySelector("#page").selectedIndex].value;
+        let typeValue = document.querySelector("#type").options[document.querySelector("#type").selectedIndex].value;
+        sendFetch(pageValue,typeValue);
+      });
+    };
+
+    window.onload = init;
   </script>
 </head>
 <body>
