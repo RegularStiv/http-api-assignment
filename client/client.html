@@ -17,30 +17,40 @@
 
       switch(response.status){
         case 200: 
-          h1.textContent = "Success"
+          h1.textContent = "Success";
           break;
           case 400: 
+          h1.textContent = "Bad Request";
           break;
           case 401: 
+          h1.textContent = "Unauthorized";
+          break;
+          case 403: 
+          h1.textContent = "Forbidden";
           break;
           case 404: 
+          h1.textContent = "Not Found";
           break;
           case 500: 
+          h1.textContent = "Internal Server Error";
+          break;
+          case 501: 
+          h1.textContent = "Not Implemented";
           break;
       }
       response.text().then((resText) => {
         if(contentType === 'application/json'){
+          console.log(resText);
           const parsedResponse = JSON.parse(resText);
-          p.textContent = parsedResponse.message;
-          console.log(`${parsedResponse}`);
+          p.textContent = `Message: ${parsedResponse.message}`;
         }
         else if(contentType === 'text/xml'){
+          console.log(resText);
           const parsedResponse = new window.DOMParser().parseFromString(resText, 'text/xml');
           p.textContent = `Message: ${parsedResponse.querySelector('message').textContent}`;
-          console.log(`${parsedResponse}`);
         }
         
-      //console.log(response);
+
       content.appendChild(h1);
       content.appendChild(p);
       });

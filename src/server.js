@@ -12,6 +12,10 @@ const urlStruct = {
   '/badRequest': responseHandler.badRequest,
   '/style.css': htmlHandler.getCSS,
   notFound: responseHandler.notFound,
+  '/unauthorized': responseHandler.unauthorized,
+  '/forbidden': responseHandler.forbidden,
+  '/notImplemented': responseHandler.notImplemented,
+  '/internal': responseHandler.serverError,
 };
 const onRequest = (request, response) => {
   const parsedURL = url.parse(request.url);
@@ -20,7 +24,7 @@ const onRequest = (request, response) => {
   if (urlStruct[parsedURL.pathname]) {
     urlStruct[parsedURL.pathname](request, response, acceptedTypes, params);
   } else {
-    urlStruct.notFound(request, response);
+    urlStruct.notFound(request, response, acceptedTypes);
   }
 };
 
