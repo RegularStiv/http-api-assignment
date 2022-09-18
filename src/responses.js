@@ -23,11 +23,11 @@ const success = (request, response, acceptedTypes) => {
 
 const badRequest = (request, response, acceptedTypes, params) => {
   if (acceptedTypes[0] === 'text/xml') {
-    let responseXML = '<response><message>This request has the required parameters</message></response>';
+    let  responseXML = '<response><message>This request has the required parameters</message></response>';
 
     if (!params.valid || params.valid !== 'true') {
       responseXML = '<response><message>missing valid query param equal to true</message><id>badRequestMissingParam</id></response>';
-      return respondJSON(request, response, 400, responseXML);
+      return respondXML(request, response, 400, responseXML);
     }
     return respondXML(request, response, 200, responseXML);
   }
@@ -51,7 +51,7 @@ const unauthorized = (request, response, acceptedTypes, params) => {
 
     if (!params.valid || params.valid !== 'true') {
       responseXML = '<response><message>Missing Login paramater set to yes</message><id>unauthorized</id></response>';
-      return respondJSON(request, response, 401, responseXML);
+      return respondXML(request, response, 401, responseXML);
     }
     return respondXML(request, response, 200, responseXML);
   }

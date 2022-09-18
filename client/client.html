@@ -75,8 +75,8 @@
       sendButton.addEventListener('click', () => 
       {
         let pageValue = document.querySelector("#page").options[document.querySelector("#page").selectedIndex].value;
-        let typeValue = document.querySelector("#type").options[document.querySelector("#type").selectedIndex].value;
-        sendFetch(pageValue,typeValue);
+        let type = document.querySelector("#type").options[document.querySelector("#type").selectedIndex].value;
+        sendFetch(pageValue, type);
       });
     };
 
